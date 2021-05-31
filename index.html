@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color inteligente </title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #display {
+            margin: 10rem;
+            border: 1px solid black;
+            height: 200px;
+            width: 200px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .display h3 {
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="container">
+        <h1 id="texto-color">Cambia el color xD</h1>
+        <input class="jscolor {onFineChange: 'update(this)'}" value="ffffff">
+
+        <div id="display">
+
+            <h3 id="texto">Hola mundo!!</h3>
+
+
+        </div>
+
+    </section>
+
+
+    <script src="https://unpkg.com/brain.js"></script>
+    <script src="./jscolor.js"></script>
+
+    <script>
+        var display = document.getElementById("display");
+        var texto = document.getElementById("texto");
+        var network = new brain.NeuralNetwork();
+
+        //aprendisaje 
+        network.train([
+            { input: { red: 0, green: 0, blue: 0 }, output: { color: 1 } },
+            { input: { rojo: 1, green: 1, blue: 1 }, output: { color: 0 } },
+            { input: { rojo: 0, green: 1, blue: 0 }, output: { color: 0 } },
+            { input: { rojo: 0, green: 0, blue: 1 }, output: { color: 1 } }
+
+        ]);
+
+        function redNeuronal(red, green, blue) {
+            var WhiteOrBlack;
+
+
+            return WhiteOrBlack;
+        }
+
+
+        function update(props) {
+
+            var colores = [props.channels.r, props.channels.g, props.channels.b];
+            display.style.background = "rgb(" + colores[0] + "," + colores[1] + "," + colores[2] + ")";
+            //console.log(colores)
+
+            var entrada = {
+                red: colores[0] / 255,
+                green: colores[1] / 255,
+                blue: colores[2] / 255
+            }
+
+            var resultados = network.run(entrada);
+
+            //console.log(resultados.color)
+
+            resultados.color < .5 ? texto.style.color = "black" : texto.style.color = "white"
+
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>
